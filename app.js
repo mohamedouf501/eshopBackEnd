@@ -1,16 +1,27 @@
-require('dotenv').config;
-const  express = require('express')
+const express = require('express')
 const app = express()
-const port = 5000
+const globalErrorHandler = require("./src/Controllers/errorController")
+const AppError = require("./src/utility/appError");
 const morgan = require('morgan')
-const api = process.env.API
-// app.use(express.urlencoded({ extended: true }));
-app.use(express.json)
-// app.use(morgan('tiny'))
-app.get('/', (req, res) => res.send('Hello World!'))
-app.use(function (err, req, res, next) {
-  console.error(err.stack)
-  res.status(500).send('Something broke!')
-});
+const cors = require('cors')
+const productRouter = require('./src/Routes/product.route');
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(morgan('tiny'))
+app.use(cors())
+
+
+
+app.use('/product', productRouter)
+app.get('/', (req, res) => { res.json({ message: 'it is work ' }) })
+app.all("*", (req, res, next) => {
+    next(new AppError(`Can't find ${req.originalUrl} on this server`));
+});
+app.use(globalErrorHandler);
+
+
+module.exports = app;
