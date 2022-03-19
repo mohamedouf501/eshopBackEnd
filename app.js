@@ -1,10 +1,11 @@
 const express = require('express')
 const app = express()
-const globalErrorHandler = require("./src/Controllers/errorController")
+const globalErrorHandler = require('./src/Controllers/errorController')
 const AppError = require("./src/utility/appError");
 const morgan = require('morgan')
 const cors = require('cors')
-const productRouter = require('./src/Routes/product.route');
+const productsRouter = require('./src/Routes/product.route');
+const CategoriesRouter = require('./src/Routes/categories.route');
 
 
 
@@ -16,7 +17,8 @@ app.use(cors())
 
 
 
-app.use('/product', productRouter)
+app.use('/products', productsRouter)
+app.use('/Categories' , CategoriesRouter)
 app.get('/', (req, res) => { res.json({ message: 'it is work ' }) })
 app.all("*", (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server`));
