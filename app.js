@@ -7,6 +7,7 @@ const cors = require('cors')
 const productsRouter = require('./src/Routes/product.route');
 const CategoriesRouter = require('./src/Routes/categories.route');
 const usersRouter = require('./src/Routes/users.route');
+const ordersRouter = require('./src/Routes/orders.route');
 const authJwt  = require('./src/utility/jwt');
 
 
@@ -22,6 +23,8 @@ app.use(cors())
 app.use('/products', productsRouter)
 app.use('/Categories' , CategoriesRouter)
 app.use('/users' , usersRouter)
+app.use('/orders' , ordersRouter)
+
 app.get('/', (req, res) => { res.json({ message: 'it is work ' }) })
 app.all("*", (req, res, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server`));
