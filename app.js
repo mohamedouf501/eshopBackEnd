@@ -7,6 +7,7 @@ const cors = require('cors')
 const productsRouter = require('./src/Routes/product.route');
 const CategoriesRouter = require('./src/Routes/categories.route');
 const usersRouter = require('./src/Routes/users.route');
+const authJwt  = require('./src/utility/jwt');
 
 
 
@@ -15,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
-
+ app.use(authJwt())
 
 
 app.use('/products', productsRouter)

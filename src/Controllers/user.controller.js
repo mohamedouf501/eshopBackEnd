@@ -51,7 +51,7 @@ exports.updateproduct = catchAsync(async (req, res, next) => {
         {
             name: req.body.name,
             email: req.body.email,
-            passwordHash:newPassword,
+            passwordHash: newPassword,
             phone: req.body.phone,
             isAdmin: req.body.isAdmin,
             street: req.body.street,
@@ -69,16 +69,25 @@ exports.updateproduct = catchAsync(async (req, res, next) => {
     res.status(200).json({ message: 'updeted', user: user })
 })
 
-exports.LogIn= catchAsync(async (req, res, next) => {
+exports.LogIn = catchAsync(async (req, res, next) => {
 
-    const user = await User.findOne({email:req.body.email})
-    if(!user) return next( new AppError('the user is not found',404))
-    if(user && bcrypt.compareSync(req.body.password, user.passwordHash))
-    {   
-        const token = jwt.sign({user},process.env.secret, {expiresIn:'1d'})
-        res.status(200).json({message:"sucsses", token:token })
+    const user = await User.findOne({ email: req.body.email })
+    if (!user) return next(new AppError('the user is not found', 404))
+    if (user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
+        const token = jwt.sign({
+            userID: user.id,
+            isAdmin: user.isAdmin
+        }, process.env.SECRET_KEY, { expiresIn: '1d' })
+        res.status(200).json({ message: "sucsses", token: token })
     }
-    else{
-        next( new AppError('Invaled password ',500))
+    else {
+        next(new AppError('Invaled password ', 500))
     }
+})
+exports.GetCount = catchAsync(async (req, res, next) => {
+    const UserCount = await User.countDocuments()
+    if (!UserCount) {
+        return next(new AppError(`Not found product`, 404))
+    }
+    res.status(200).json({ message: 'sucsses ', UserCount: UserCount })
 })

@@ -1,4 +1,4 @@
-const dotenv = require("dotenv");
+require("dotenv").config();
 
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
@@ -7,7 +7,7 @@ process.on("uncaughtException", (err) => {
 });
 
 const app = require("./app");
-dotenv.config({ path: "./config.env" });
+// dotenv.config({ path: "./config.env" });
 const port = process.env.PORT || 3000;
 
 const DATABASE = require("./configDataBase/mogoose.config");

@@ -11,4 +11,4 @@ const categorySchema = mongoose.Schema({
         type: String,     
     }
 })
-exports.Category = mongoose.model('category', categorySchema)
+exports.Category = mongoose.model('Category', categorySchema)
