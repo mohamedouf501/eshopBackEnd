@@ -6,9 +6,9 @@ router.get('/:id', orderController.GetOrder)
 router.get('/get/totalSales', orderController.GetTotalSales)
 router.get('/get/OrderCount', orderController.GetOrderCount)
 router.get('/get/UserOrder/:userId', orderController.GetUserOrder)
-
 router.post('/', orderController.AddOrders)
 router.put('/:id', orderController.updateOrder)
+
 router.delete('/:id', orderController.DeleteOrder)
 
 

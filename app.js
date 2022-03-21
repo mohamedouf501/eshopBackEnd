@@ -9,7 +9,7 @@ const CategoriesRouter = require('./src/Routes/categories.route');
 const usersRouter = require('./src/Routes/users.route');
 const ordersRouter = require('./src/Routes/orders.route');
 const authJwt  = require('./src/utility/jwt');
-
+const path =require('path')
 
 
 
@@ -17,8 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
- app.use(authJwt())
-
+// app.use(authJwt())
+// app.use("/public/uploads", express.static(__dirname +'uploads'));
+app.use('/public/uploads/', express.static('uploads'))
 
 app.use('/products', productsRouter)
 app.use('/Categories' , CategoriesRouter)
