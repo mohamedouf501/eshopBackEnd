@@ -19,9 +19,8 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.options('*', cors());
 
-app.use(authJwt())
-app.use('/public/upload/',express.static(path.join(__dirname, '/public/uploads')));
-
+//app.use(authJwt())
+app.use('/public/uploads/',express.static(path.join(__dirname, '/public/uploads')));
 app.use('/products', productsRouter)
 app.use('/Categories' , CategoriesRouter)
 app.use('/users' , usersRouter)

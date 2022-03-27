@@ -12,7 +12,6 @@ function authJwt() {
             ,{url:/\/Categories(.*)/, methods:['GET','OPTIONS']},
             `/users/login/`,
             `/users/register/`
-            
         ] 
     }) 
 } 

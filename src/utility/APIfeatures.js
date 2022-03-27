@@ -13,7 +13,6 @@ class APIFeatures {
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
         this.query.find(JSON.parse(queryStr))
-        console.log(this.querystr)
         return this;
     }
     sort() {

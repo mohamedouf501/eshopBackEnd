@@ -20,7 +20,7 @@ const productSchema = mongoose.Schema({
     images: [{
         type: String
     }],
-    barnd: {
+    brand: {
         type: String,
         default: ''
     },
@@ -57,10 +57,10 @@ const productSchema = mongoose.Schema({
     },
 })
 
-productSchema.virtual('id').get(function (){
+productSchema.virtual('id').get(function () {
     return this._id.toHexString()
 })
-productSchema.set('toJSON' , {
-    virtuals:true
+productSchema.set('toJSON', {
+    virtuals: true
 })
 exports.Product = mongoose.model('Product', productSchema)

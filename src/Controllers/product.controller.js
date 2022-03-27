@@ -6,16 +6,15 @@ const APIFeatures = require("../utility/APIfeatures");
 
 
 exports.GetAllProducts = catchAsync(async (req, res, next) => {
-    const Features = new APIFeatures(Product.find({}), req.query).filter()
+    const Features = new APIFeatures(Product.find({}).populate('category'), req.query).filter()
     const Products = await Features.query
-
     if (!Products) next(new AppError(' not found Products ', 404))
     res.status(200).json({ message: 'sucssec', Products: Products })
 })
 exports.GetProduct = catchAsync(async (req, res, next) => {
     const product = await Product.findById(req.params.id).populate('category')
     if (!product) return next(new AppError(`Not Found Product have ID ${req.params.id} `, 404))
-    res.status(200).json({ message: 'sucssec', product: product })
+    res.status(200).json({ message: 'sucssec', productData: product })
 })
 
 exports.AddProduct = catchAsync(async (req, res, next) => {
@@ -48,14 +47,12 @@ exports.AddProduct = catchAsync(async (req, res, next) => {
 })
 exports.updateproduct = catchAsync(async (req, res, next) => {
     const category = await Category.findById(req.body.category)
+    console.log(req.body)
     if (!category) return next(new AppError('Invalid category ', 400))
-
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(400).send('Invalid Product!');
-
     const file = req.file;
     let imagepath;
-
     if (file) {
         const fileName = file.filename;
         const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
@@ -63,8 +60,7 @@ exports.updateproduct = catchAsync(async (req, res, next) => {
     } else {
         imagepath = product.image;
     }
-
-    const Updateproduct = await Product.findByIdAndUpdate(
+    const productupdete = await Product.findByIdAndUpdate(
         req.params.id,
         {
             name: req.body.name,
@@ -82,10 +78,10 @@ exports.updateproduct = catchAsync(async (req, res, next) => {
         {
             new: true
         })
-    if (!Updateproduct) {
+    if (!productupdete) {
         return next(new AppError(`Not found product have this is id ${req.params.id} `, 404))
     }
-    res.status(200).json({ message: 'updeted', Updateproduct: product })
+    res.status(200).json({ message: 'updeted', Updateproduct: productupdete })
 })
 exports.Deleteproduct = catchAsync(async (req, res, next) => {
 

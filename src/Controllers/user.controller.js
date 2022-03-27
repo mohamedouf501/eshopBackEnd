@@ -91,3 +91,10 @@ exports.GetCount = catchAsync(async (req, res, next) => {
     }
     res.status(200).json({ message: 'sucsses ', UserCount: UserCount })
 })
+exports.DeleteUser = catchAsync(async (req,res,next)=>{
+    const user = await User.findByIdAndDelete(req.params.id)
+    if (user == null) {
+        return next(new AppError(`not found user have this is id ${req.params.id} `, 404))
+    }
+    res.status(200).json({ message: 'Deleted ', user: null })
+})

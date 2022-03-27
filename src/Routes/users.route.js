@@ -8,5 +8,6 @@ router.post('/', userController.Adduser)
 router.post('/login', userController.LogIn)
 router.post('/register', userController.Adduser)
 router.put('/:id', userController.updateproduct)
+router.delete('/:id', userController.DeleteUser)
 
 module.exports = router

@@ -7,7 +7,7 @@ router.get('/get/count/', productController.GetCount)
 router.get('/get/featured/:count', productController.GetFeatured)
 
 router.post('/',uploadOptions.single('image') ,productController.AddProduct)
-router.put('/:id', productController.updateproduct)
+router.put('/:id',uploadOptions.single('image'), productController.updateproduct)
 router.put('/GalleryImages/:id', uploadOptions.array('images', 10), productController.GalleryImages)
 
 router.delete('/:id', productController.Deleteproduct)
