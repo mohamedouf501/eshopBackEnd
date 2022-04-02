@@ -17,10 +17,12 @@ exports.GetAllOrders = catchAsync(async (req, res, next) => {
 exports.GetOrder = catchAsync(async (req, res, next) => {
 
     const order = await Order.findById(req.params.id).populate('user', 'name').populate({
-        path: 'orderItems', populate: {
-            path: 'product', populate: 'category'
-        }
-    })
+        path: "orderItems",
+        populate: {
+          path: "product",
+          populate: "category",
+        },
+      })
     if (!order) next(new AppError(' Not Found order ', 404))
     res.status(200).json({ message: 'sucssec', order: order })
 })
@@ -96,15 +98,15 @@ exports.DeleteOrder = catchAsync(async (req, res, next) => {
 
 exports.GetTotalSales = catchAsync(async (req, res, next) => {
 
-    const  totalSales = await Order.aggregate([
-        {$group:{_id:null , totalSales :{$sum:"$totalPrice"}}}
+    const totalSales = await Order.aggregate([
+        { $group: { _id: null, totalSales: { $sum: "$totalPrice" } } }
     ])
 
-    if(!totalSales) return next(new AppError('the order sales cannot be generated'))
-    res.status(200).json({totalSales:totalSales.pop().totalSales})
+    if (!totalSales) return next(new AppError('the order sales cannot be generated'))
+    res.status(200).json({ totalSales: totalSales.pop().totalSales })
 })
 
-exports.GetOrderCount =  catchAsync(async (req, res, next) => {
+exports.GetOrderCount = catchAsync(async (req, res, next) => {
     const OrderCount = await Order.countDocuments()
     if (!OrderCount) {
         return next(new AppError(`Not found product`, 404))
@@ -112,14 +114,14 @@ exports.GetOrderCount =  catchAsync(async (req, res, next) => {
     res.status(200).json({ message: 'sucsses ', OrderCount: OrderCount })
 })
 
-exports.GetUserOrder =  catchAsync(async (req, res, next) => {
+exports.GetUserOrder = catchAsync(async (req, res, next) => {
 
-    const userOrderList = await Order.find({user:req.params.userId}).populate({
+    const userOrderList = await Order.find({ user: req.params.userId }).populate({
         path: 'orderItems', populate: {
             path: 'product', populate: 'category'
         }
     })
-    if(!userOrderList) return next(new AppError (false,500))
+    if (!userOrderList) return next(new AppError(false, 500))
     res.send(userOrderList)
 
 })
